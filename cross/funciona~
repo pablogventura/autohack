@@ -1,0 +1,3 @@
+mips-linux-gnu-gcc -EB -mips1 -static prueba.c -o test
+
+funciona! despues lo copio a /var/www y le hago un wget desde el router en cuestion

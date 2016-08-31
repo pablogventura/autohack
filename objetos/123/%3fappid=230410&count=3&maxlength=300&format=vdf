@@ -1,0 +1,43 @@
+"appnews"
+{
+	"appid"	"230410"
+	"newsitems"
+	{
+		"0"
+		{
+			"gid"	"524998195230318241"
+			"title"	"Devstream 43 Today!"
+			"url"	"http://store.steampowered.com/news/externalpost/steam_community_announcements/524998195230318241"
+			"is_external_url"	"1"
+			"author"	"rebulast"
+			"contents"	"Are you ready for the final Devstream of 2014? Join our Devs -- Geoff, Steve, Scott and Sheldon and Community Manager, Rebecca for a Q&A Session and look back at the good, the bad, and the ugly of 2014. We will also discuss our plans for 2015 plans and briefly celebrate our 2nd Annual Streamlinies a..."
+			"feedlabel"	"Community Announcements"
+			"date"	"1418404213"
+			"feedname"	"steam_community_announcements"
+		}
+		"1"
+		{
+			"gid"	"524998195188735488"
+			"title"	"Update 15.6.0 is here!"
+			"url"	"http://store.steampowered.com/news/externalpost/steam_community_announcements/524998195188735488"
+			"is_external_url"	"1"
+			"author"	"rebulast"
+			"contents"	"For full notes and Hotfixes, see our official forums: https://forums.warframe.com. Tenno Reinforcement: Kohm: The Kohm is a primary plasma shotgun with a unique held-trigger function. For every shot fired in rapid succession the Kohm releases an additional bolt, growing more lethal with every pull o..."
+			"feedlabel"	"Community Announcements"
+			"date"	"1418335576"
+			"feedname"	"steam_community_announcements"
+		}
+		"2"
+		{
+			"gid"	"522745035951691958"
+			"title"	"Update Mesa is here!"
+			"url"	"http://store.steampowered.com/news/externalpost/steam_community_announcements/522745035951691958"
+			"is_external_url"	"1"
+			"author"	"rebulast"
+			"contents"	"Brand new experiences await, Tenno. Update Mesa has arrived! A new Event, Warframe, Boss, Customizations, Mission Type and more have been wrangled into this awesome update! Join your fellow Tenno in Operation Mutalist Incursions! Alad V has thrown the Solar System into turmoil using his new Infested..."
+			"feedlabel"	"Community Announcements"
+			"date"	"1417111196"
+			"feedname"	"steam_community_announcements"
+		}
+	}
+}

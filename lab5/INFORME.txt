@@ -1,0 +1,76 @@
+Informe LAB 5
+Redes y Sistemas Distribuidos 2012
+FaMAF (Universidad Nacional de Córdoba)
+Viernes 22 de Junio de 2012
+
+Grupo 09:
+- Ventura, Pablo
+- Mateuci, Mariano
+- Naser Pastoriza, Alejandro
+
+Emails:
+pablogventura@gmail.com
+mjmateuci@gmail.com
+alejnaser@gmail.com
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+ /// INTRODUCCIÓN ///
+
+El laboratorio consistía en la implementación de un programa que toma archivos
+del tipo pcap (los cuales contienen capturas de paquetes y pueden generados
+por tcpdump, wireshark, etc) e intenta construir los archivos que encuentra
+en paquetes contenidos en el archivo pcap.
+De todos modos nuestra tarea era mas acotada y se explica en especificación. 
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+ /// ESPECIFICACIÓN ///
+
+Debíamos implementar una serie de procedimientos, para las clases:
+
+* Connection status: Su tarea es indentificar cuando una conexión fue 
+establecida y cuando una conexión se cerro.
+
+Modificamos los siguientes métodos: 
+__init__: inicializando las variables que necesitábamos
+
+add: Verificamos el 'three way handshake' y además corroboramos 
+los posibles casos de un envío de flag de fin.
+
+* Reassembler: Su tarea es reconstruir el stream de datos enviado en una 
+conexión TCP.
+
+Modificamos los siguientes métodos: 
+__init__: inicializando un diccionario y un numero secuencia(wseq) que en un
+primer caso no es un numero sino que es un string que esta inicializado como 
+'No Asignado'.
+
+add: escribe secuencias de un paquete de manera ordenada, tiene un buffer en 
+donde almacena las secuencias que usara después.
+ 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+/// PROBLEMAS ENCONTRADOS ///
+
+Básicamente nos encontramos con el problema de que no podíamos
+ordenar correctamente los paquetes, luego pudimos resolverlo correctamente
+utilizando un diccionario como buffer.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+/// DESARROLLO ///
+
+Nuestro grupo optó por trabajar de manera grupal (sin dividir trabajo) en todo
+momento, esto es, todos trabajamos implementando la misma funcionalidad.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+/// CONCLUSIÓN ///
+
+El proyecto estuvo interesante ya que nos permitió aprender mas sobre el
+protocolo TCP, a través del RFC que leímos para poder llevar a cabo las
+procedimientos requeridos para el correcto funcionamiento del laboratorio. 
+Otro aspecto interesante, fue poder aprender mas acerca de los sniffers.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

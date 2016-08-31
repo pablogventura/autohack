@@ -1,0 +1,196 @@
+4.3.6. CONNECTION STATE and its relation to USER and INCOMING CONTROL
+
+   REQUESTS
+
+   In order to formalize the action taken by the TCP when it receives
+   commands from the User, or Control information from the network, we
+   define a connection to be in one of 7 states at any instant. These
+   are known as the TCB Major States. Each Major State is simply a
+   convenient name for a particular setting or group of settings of the
+   state bits, as follows:
+
+      S1 S2  R  U  F  C   #   name
+
+       -  -  -  -  -  -   0   no TCB
+
+       0  0  0 0/1 0  0   1   unsync
+
+       1  0  0  0  0  0   2   SYN sent
+
+       1  0  1 0/1 0  0   3   SYN received
+
+       1  1  1  0  0  0   4   established
+
+       1 0/1 1 0/1 1  1   5   FIN wait
+
+       1  1  1  0  1  0   6   FIN received
+
+
+
+                                    [Page 28]
+
+ FIGURE 1: TCB Major States
+
+                              0-no TCB
+      \____________________________________________________________/
+                       OPEN    |    A   CLOSE           CLOSE    A
+                    ---------- |    | ----------      ---------- |
+                    set up TCB |    | remove TCB      remove TCB |
+                               |    |                            |
+                               |    |       collision retry,     |
+        SYN arrives          __V____|__       SEND, INTER        |
+       -------------        / S1=0     \    ----------------     |
+       send SYN, ACK       |  S2=0 F=0  |       send SYN         |
+     ______________________|  R=0  C=0  |_____________________   |
+    |                      |  U=0/1     |                     |  |
+    |                      |            |   SYN arrives       |  |
+    |      error,timeout   |   1-OPEN   |   -----------       |  |
+    |      -------------    \__________/    collision;        |  |
+    |        clear TCB         A    A       set timeout       |  |
+    |     _____________________|    |_____________________    |  |
+  __V____|__                                             _|___V__|_
+ / S1=1     \                                           / S1=1     \
+|  S2=0 F=0  |                                         |  S2=0 F=0  |
+|  R=1  C=0  |                       SYN, ACK arrives  |  R=0  C=0  |
+|  U=0/1     |  ACK arrives          ----------------  |  U=0       |
+|            |  -----------              send ACK      |            |
+| 3-SYN rcvd |_________________       _________________| 2-SYN sent |
+ \__________/                  |     |                  \__________/
+    |                        __V_____V__
+    |                       / S1=1      \
+    |  CLOSE               |  S2=1 F=0   |
+    | --------             |  R=1  C=0   |     FIN arrives
+    | send FIN             |  U=0        | -------------------
+    |                      |             | tell user, send FIN
+    |      ________________|4-established|______________________
+    |     |    CLOSE        \___________/                       |
+    |     |   -------                                           |
+  __V_____V_  send FIN                                   _______V__
+ / S1=1     \                                           / S1=1     \
+| S2=0/1 F=1 |     timeout or                          |  S2=1 F=1  |
+|  R=1   C=1 | FIN, error, arrives            CLOSE    |  R=1  C=0  |
+|  U=0/1     | -------------------          ---------- |  U=0       |
+|            |     remove TCB               remove TCB |            |
+| 5-FIN wait |_____________________       _____________| 6-FIN rcvd |
+ \__________/                      |     |              \__________/
+                                   |     |
+       ____________________________V_____V_______________________
+      /                                                          \
+                                  0-no TCB
+
+
+
+                                        [Page 48]
+                                        
+                                        
+FIGURE 2.2b-1:                         _______
+Input Packet Handler                  / Begin \
+                                      \_______/
+                                          |
+ ________________________________________\|/_________________________
+|                              A         /|\                         |
+|                              |          |                          |
+|                              |         _V_                         |
+|                              |       .'   '.          _______      |
+|                              |     .' input '.       | go to |     |
+|                              |   .'  packet   '.____\| sleep |     |
+|                              |    '.available.'  no /|_______|     |
+|                              |      '.__?__.'                      |
+|                              |          | yes                      |
+|                              |         _V_                         |
+|                              |       .'   '.                       |
+|   .->SPECIAL FUNCT. Fig 4.7  |     .'address'.                     |
+|   | .->ERR Fig 4.5,4.6       |___.' check OK  '.                   |
+|   | | .->SYN Fig 4.1,4.2      no  '.    ?    .'                    |
+|   | | | .->INT Fig 4.3              '._____.'                      |
+|   | | | | .->FIN Fig 4.4                | yes              ________|_
+|   | | | | |                            _V_                | discard  |
+|  _|_|_|_|_|___________               .'   '.              |(or queue)|
+|  |                    |            .' error '.            |__________|
+|<-| Control Processing |/_________.'or control '.                   A
+   |____________________|\     yes  '.    ?    .'                    |
+        |                             '._____.'                      |
+        | (INT with data)                 | no                       |
+        |                                 |                          |
+        V                                _V_                         |
+      to "X"                           .'   '.              .        |
+  in Fig 2.2b-2                      .'(estab)'.          .' '.      |
+                              _____.' R=S1=S2=1 '.----->.'seq.#'.--->|
+                             | yes  '.    ?    .'  no    '.OK .'  no |
+                             |        '._____.'            '.'       |
+                             |                              | yes    |
+                             |    _______________           |        |
+                             |   | Set S2=1, U=0 |          V        |
+                             |   | Notify user   |         .'.       |
+                             |<--| with event 2  |       .'ACK'.     |
+                             |   | if U was 1    |<-----'.  OK .'--->'
+                             |   |_______________|  yes   '. .'   no
+                             |                              '
+                             V
+                           to "Y"
+                       in Fig 2.2b-2
+
+
+
+
+
+                                         [Page 51]
+                                         
+                                         
+                                         
+                                         
+                                         
+FIGURE 2.3-1: Reassembler
+
+       _______
+      / Begin \
+      \_______/
+          |
+          |
+          |<----------------------------------------------.
+          |                      _____                    | yes
+    ______V_____               .'     '.                 _|_
+   |Get ready   |            .' Receive '.   yes       .'any'.
+   |for next TCB|--------->.'Packet Queue '.-------->.' more  '.
+   |____________|     A     '.  empty ?  .'     A     '.work?.'
+                      |       '._______.'       |       '._.'
+                      |            | no         |         | no
+   "R"------>---------'          __V__          |     ____V____
+                               .' is  '.        |    |  Go to  |
+                             .' packet  '.      |    |  Sleep  |
+  .--<----------------------'.DSN with no.'     |    |_________|
+  |                     yes   '. data? .'       |
+  |                             '.___.'         |
+  |                                | no         |
+  |                              __V__          |
+  |                            .'     '.        |
+  |                          .' Receive '.  yes |
+  |                        .'Buffer Queue '.--->|
+  |                         '.  empty ?  .'     |
+  |  ________________         '._______.'       |
+  | |Copy from packet|             | no         |<-------------"S"
+  | |to buffer until |           __V__          |
+  | |one is exhausted|         .'First'.        |
+  | |Update receive  | yes   .' packet  '.   no |
+  | |window.         |<----.'matches Recv '.--->'
+  | |________________|      '.left window.'
+  |         |                 '. edge ?.'
+  |       __V__                 '.___.'
+  |     .'Send '.
+  |   .' Packet  '.   yes  _____________________________
+  | .' Queue empty '.---->|Create ACK packet containing |
+  |  '.     ?     .'      |new window. Signal OPH.      |
+  |    '._______.'        |_____________________________|
+  |      no |                            |
+  |         |                            |
+  |         '--------------------------->|
+  |                                      |
+  V                                      V
+to "T"                                 to "U"
+in Fig 2.3-2                        in Fig 2.3-2
+
+
+
+                                         [Page 53]
+
+ 

@@ -1,0 +1,4 @@
+mips-linux-gnu-gcc -EB -mips1 -static prueba.c -o test
+
+funciona! despues lo copio a /var/www y le hago un wget desde el router en cuestion
+tambien se puede seguir agregando cosas a /www2 en el router mio para que sea ahi el server
