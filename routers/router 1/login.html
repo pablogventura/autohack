@@ -1,0 +1,267 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<script language="javascript" src="login_archivos/util.js"></script>
+<style type="text/css">
+html {
+filter:expression(document.execCommand("BackgroundImageCache",false,true));
+}
+.ct_text{width:115px;border:1px #87a6c3 solid;background:#edeced;}
+.loginheard{
+    font-weight: bold;
+    font-size: 18px;
+    font-family: "arial", "tahoma", "sans-serif", "helvetica";
+    color: #ffffff;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+}
+.logintitle{
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "arial", "tahoma", "sans-serif", "helvetica";
+    color: #5f5f5f;
+    text-decoration: none;
+}
+.loginbutton{
+    font-weight: bold;
+    font-size: 12px;
+    font-family: "arial", "tahoma", "sans-serif", "helvetica";
+    color: #5f5f5f;
+    border: 1px outset #999999;
+    text-decoration: none;
+    text-align: center;
+    event:expression(
+    onmouseover = function(){this.className='loginbutton_over';},  
+    onmouseout = function(){this.className='loginbutton';}  
+    )
+}
+.loginbutton_over{
+    font-weight: bold;
+    font-size: 12px;
+    font-family: "arial", "tahoma", "sans-serif", "helvetica";
+    color: #404040;
+    border: 1px outset #3399cc;
+    text-decoration: none;
+    text-align: center;
+}
+.warningmsg{
+    font-weight: bold;
+    font-size: 12px;
+    font-family: "arial", "tahoma", "sans-serif", "helvetica";
+    color: #cc0033;
+    text-decoration: none;
+    text-align: center;
+}
+.copyrightmsg{
+    font-weight: bold;
+    font-size: 12px;
+    font-family: "arial", "tahoma", "sans-serif", "helvetica";
+    color: #5f5f5f;
+    text-decoration: none;
+    text-align: center;
+}
+</style>
+<script language="javascript">
+           if(window.Event)
+              document.captureEvents(Event.MOUSEUP);
+           function norightclick(e)
+           {
+              if (window.Event)
+              {
+                 if (e.which == 2 || e.which == 3)
+                 return false;
+              }
+              else
+                 if (event.button == 2 || event.button == 3)
+                 {
+                    event.cancelBubble = true;
+                    event.returnValue = false;
+                    return false;
+                 }
+           }
+           document.onmousedown =  norightclick;
+          document.oncontextmenu = function(e){return false;}
+          </script>
+<script language="javascript">
+<!-- hide
+var ns4 = (document.layers) ? true : false;
+var ie4 = (document.all) ? true : false;
+
+var hexVals = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+              "A", "B", "C", "D", "E", "F");
+var unsafeString = "\"<>%\\^[]`\+\$\,'#&";
+// deleted these chars from the include list ";", "/", "?", ":", "@", "=", "&" and #
+// so that we could analyze actual URLs
+
+function isUnsafe(compareChar)
+// this function checks to see if a char is URL unsafe.
+// Returns bool result. True = unsafe, False = safe
+{
+   if ( unsafeString.indexOf(compareChar) == -1 && compareChar.charCodeAt(0) > 32
+        && compareChar.charCodeAt(0) < 123 )
+      return false; // found no unsafe chars, return false
+   else
+      return true;
+}
+
+function decToHex(num, radix)
+// part of the hex-ifying functionality
+{
+   var hexString = "";
+   while ( num >= radix ) {
+      temp = num % radix;
+      num = Math.floor(num / radix);
+      hexString += hexVals[temp];
+   }
+   hexString += hexVals[num];
+   return reversal(hexString);
+}
+
+function reversal(s)
+// part of the hex-ifying functionality
+{
+   var len = s.length;
+   var trans = "";
+   for (i = 0; i < len; i++)
+      trans = trans + s.substring(len-i-1, len-i);
+   s = trans;
+   return s;
+}
+
+function convert(val)
+// this converts a given char to url hex form
+{
+   return  "%" + decToHex(val.charCodeAt(0), 16);
+}
+
+function encodeUrl(val)
+{
+   var len     = val.length;
+   var i       = 0;
+   var newStr  = "";
+   var original = val;
+
+   for ( i = 0; i < len; i++ ) {
+      if ( val.substring(i,i+1).charCodeAt(0) < 255 ) {
+         // hack to eliminate the rest of unicode from this
+         if (isUnsafe(val.substring(i,i+1)) == false)
+            newStr = newStr + val.substring(i,i+1);
+         else
+            newStr = newStr + convert(val.substring(i,i+1));
+      } else {
+         // woopsie! restore.
+         alert ("Found a non-ISO-8859-1 character at position: " + (i+1) + ",\nPlease eliminate before continuing.");
+         newStr = original;
+         // short-circuit the loop and exit
+         i = len;
+      }
+   }
+
+   return newStr;
+}
+
+function onlogin() {
+	with ( document.forms[0] ) {
+		if(username.value.length <= 0) {
+			alert("Please input the username!");
+			return;
+		}
+
+		var loc = "login.cgi?" +"username=" + encodeUrl(username.value) + "&psd=" + encodeUrl(password.value);
+		var code = 'location="' + loc + '"';
+		eval(code);
+	}
+}
+
+function myKeyDown(e) {
+	if(ns4 && e.which==13){
+		onlogin();
+		return e.which;
+	} else if(ie4 && window.event.keyCode==13) {   
+		onlogin();
+		return window.event.keyCode;
+    }
+	else if (navigator.userAgent.indexOf('Opera') >= 0 && e.which==13){
+            if ( e && e.preventDefault ) 
+                e.preventDefault(); 
+            else
+                window.event.returnValue = false;
+            onlogin();
+            return e.which;		
+	} else if(document.addEventListener){   //FirefoxµÄ´¦Àí·½Ê½
+	document.addEventListener("keydown",fireFoxHandler, true);
+	}
+	return 0;
+}
+
+document.onkeydown = myKeyDown;
+if(ns4) {
+	document.captureEvents(Event.KEYDOWN);
+} 
+
+function fireFoxHandler(e){
+if(e.keyCode==13){
+  onlogin();
+}
+}
+
+var popUpWin=0;
+
+function popUpWindow(URLStr, left, top, width, height)
+{
+  if(popUpWin)
+  {
+    if(!popUpWin.closed) popUpWin.close();
+  }
+  popUpWin = open(URLStr, 'popUpWin', 'toolbar=yes,location=no,directories=no,status=no,menubar=yes,scrollbars=yes,resizable=yes,copyhistory=yes,width='+width+',height='+height+',left='+left+', top='+top+',screenX='+left+',screenY='+top+'');
+}
+
+function frmLoad() {
+  with (document.forms[0]) {
+    username.focus();
+  }
+}
+
+
+// done hiding -->
+</script>
+</head>
+
+<body topmargin="0" leftmargin="0" onload="frmLoad()">
+<form>
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">  
+  <tbody><tr height="89">
+  	<td>&nbsp;</td>
+  </tr>
+  <tr height="259">
+  	<td>
+  		<table height="157" align="center" bgcolor="#e0e0e0" border="0" cellpadding="0" cellspacing="0" width="254">
+  			<tbody><tr height="40">
+  				<td class="loginheard" colspan="2" align="center" valign="middle">Login Screen</td>
+  			</tr>
+  			<tr height="2">
+  				<td colspan="2" align="center"><p></p><hr><p></p></td>
+  			</tr>
+  			<tr height="30">
+  				<td class="logintitle" width="80">&nbsp;&nbsp;Username:&nbsp;</td>
+  				<td align="left"><input name="username" id="username" class="ct_text" maxlength="55" type="text"></td>
+  			</tr>
+  			<tr height="35">
+  				<td class="logintitle" align="left" width="80">&nbsp;&nbsp;Password:&nbsp;</td>
+  				<td align="left"><input name="password" id="password" class="ct_text" maxlength="88" type="password"></td>
+  			</tr>
+  			<tr height="40">
+  				<td colspan="2" align="right"><input name="button" id="loginBtn" onclick="onlogin()" value="LOGIN" class="loginbutton" type="button">&nbsp;
+					<input class="loginbutton" id="rewBtn" value="CANCEL" type="reset">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+  			</tr>
+  		</tbody></table>
+  	</td>
+  </tr>
+  <tr>
+  	<td class="copyrightmsg">Please enter correct username and password for access.</td>
+  </tr>
+</tbody></table>
+</form>
+
+
+</body></html>
